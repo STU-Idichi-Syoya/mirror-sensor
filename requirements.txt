@@ -1,2 +1,2 @@
 adafruit-blinka
-Adafruit_AMG88xx
+adafruit-circuitpython-amg88xx
