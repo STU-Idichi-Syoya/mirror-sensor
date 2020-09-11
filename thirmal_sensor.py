@@ -34,16 +34,17 @@ class sensor_amgx:
     def  get_resized_img(self,img):
         return cv2.resize(img,(256,256),cv2.INTER_CUBIC)
 
-    def tmp_img_thermal(self,img:np.ndarray,MAX_TMP=37.5,MIN_TMP=35.0):
-        img=self.get_tmp_8x8()
-        img=cv2.resize(img,(500,500),cv2.INTER_CUBIC)
+## we don't use opencv 
+#     def tmp_img_thermal(self,img:np.ndarray,MAX_TMP=37.5,MIN_TMP=35.0):
+#         img=self.get_tmp_8x8()
+#         img=cv2.resize(img,(500,500),cv2.INTER_CUBIC)
 
-        img=((img-MIN_TMP)/(MAX_TMP-MIN_TMP))*(255)
+#         img=((img-MIN_TMP)/(MAX_TMP-MIN_TMP))*(255)
 
-        img[img>255]=255
-        img[img<0]=0
-        img=img.astype("uint8")
-        img=cv2.applyColorMap(img,cv2.COLORMAP_HOT)
+#         img[img>255]=255
+#         img[img<0]=0
+#         img=img.astype("uint8")
+#         img=cv2.applyColorMap(img,cv2.COLORMAP_HOT)
 
         
         return img
