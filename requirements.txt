@@ -1,0 +1,2 @@
+adafruit-blinka
+Adafruit_AMG88xx
