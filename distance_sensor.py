@@ -97,8 +97,8 @@ def get_distance(trig=GPIO_TRIG, echo=GPIO_ECHO):
 
 if __name__ == "__main__":
 
-    GPIO_TRIG = 23
-    GPIO_ECHO = 24
+    GPIO_TRIG = 17
+    GPIO_ECHO = 27
 
     init_sensors(GPIO_TRIG, GPIO_ECHO)
     while True:
