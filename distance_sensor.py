@@ -1,4 +1,3 @@
-from sensor_temp import temp_sensor
 import RPi.GPIO as GPIO
 import time
 
@@ -43,7 +42,11 @@ def pulse_in(pin, value=GPIO.HIGH, timeout=1.0):
 
 temp_instance=None
 
-def init_sensors(trig, echo, mode=GPIO.BCM,temp_sensor_instance=None):
+
+GPIO_TRIG = 17
+GPIO_ECHO = 27
+
+def init_sensors(trig=GPIO_TRIG, echo=GPIO_ECHO, mode=GPIO.BCM,temp_sensor_func=None):
     """
     初期化します
     :param trig: Trigger用ピン番号、またはGPIO 番号
@@ -57,9 +60,14 @@ def init_sensors(trig, echo, mode=GPIO.BCM,temp_sensor_instance=None):
     GPIO.setup(echo, GPIO.IN)
     
     global temp_instance
-    temp_instance=temp_sensor_instance
+    if temp_sensor_func is None:
+        def f():
+            return 15.0
+        temp_instance=f
+    else:
+        temp_instance=temp_sensor_func
 
-def get_distance(trig, echo):
+def get_distance(trig=GPIO_TRIG, echo=GPIO_ECHO):
     """
     距離を取得します。取得に失敗した場合は0を返します。
     :param trig: Trigger用ピン番号、またはGPIO 番号(GPIO.setmodeに依存。)(GPIO.OUT)
@@ -68,8 +76,9 @@ def get_distance(trig, echo):
     :return: 距離（ｃｍ）タイムアウト時は 0
     """
 
-    temp=temp_instance.get_temp()
-
+    temp=temp_instance()
+    #print(temp)
+    # 出力を初期化
     # 出力を初期化
     GPIO.output(trig, GPIO.LOW)
     time.sleep(0.3)
@@ -86,11 +95,10 @@ def get_distance(trig, echo):
     # return dur * (331.50 + 0.61 * temp) * 100 / 2
     return dur * (331.50 + 0.61 * temp) * 50
 
-
 if __name__ == "__main__":
 
-    GPIO_TRIG = 26
-    GPIO_ECHO = 19
+    GPIO_TRIG = 23
+    GPIO_ECHO = 24
 
     init_sensors(GPIO_TRIG, GPIO_ECHO)
     while True:

@@ -4,14 +4,6 @@ import board,cv2
 
 import adafruit_amg88xx
 
-# import matplotlib.pyplot as plt
-
-
-# cv2.namedWindow('s', cv2.WINDOW_NORMAL)
-# #cv2.resizeWindow("img_title",1280,720)
-# cv2.setWindowProperty('s', cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
-
-
 
 # I2Cバスの初期化
 i2c_bus = busio.I2C(board.SCL, board.SDA)
@@ -22,26 +14,7 @@ sensor = adafruit_amg88xx.AMG88XX(i2c_bus)
 # センサーの初期化待ち
 time.sleep(.1)
 
-# # 8x8ピクセルの画像とbicubic補間をした画像を並べて表示させる
-# #plt.subplots(figsize=(8, 4))
-# import numpy as np
-# mat=np.zeros((500,500,3),dtype="uint8")
-# # ループ開始
-# while True:
-#     # データ取得
-#     s= sensor.pixels
 
-#     s=np.array(s,dtype="float16")
-#     s=((s-25)/(37.5-25))*(250)
-#     print(np.count_nonzero(s>250))
-#     sn=s.astype("uint8")
-
-
-#     sn=cv2.applyColorMap(sn,cv2.COLORMAP_HOT)
-#     s=cv2.resize(sn,(500,500),cv2.INTER_CUBIC)
-
-#     cv2.imshow("s",s)
-#     cv2.waitKey(10)
 import numpy as np
 class sensor_amgx:
     def __init__(self) -> None:
@@ -74,3 +47,7 @@ class sensor_amgx:
 
         
         return img
+if __name__ =="__main__" :
+    while True:
+        print(sensor_amgx().get_tmp_8x8().max())
+

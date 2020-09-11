@@ -3,26 +3,10 @@ import time
  
 i2c = smbus.SMBus(1)
 address = 0x5c
-
-
-dur_temp_sensor=0.5
-
-stime=time.time()
-
-btemp=0
-
+ 
 # センサsleep解除
 def get_tmp():
-    global stime
-    global btemp
-    bdur=time.time()-stime
-    slp_time=dur_temp_sensor-bdur
-    stime=time.time()
-    if slp_time>0:
-        return btemp
-        
-    
-    
+    time.sleep(0.5)
     try:
         i2c.write_i2c_block_data(address,0x00,[])
     except:
@@ -36,14 +20,6 @@ def get_tmp():
     block = i2c.read_i2c_block_data(address,0,6)
     hum = float(block[2] << 8 | block[3])/10
     tmp = float(block[4] << 8 | block[5])/10
-    
-    btemp=tmp
     return tmp
-
-
-if __name__ =="__main__" :
-    while True:
-      t=get_tmp()
-      print(t)
-  
-    
+while True:
+    print(get_tmp()) # 温度表示
