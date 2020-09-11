@@ -15,14 +15,14 @@ btemp=0
 def get_tmp():
     global stime
     global btemp
-    bdur=time.time()-stime
-    slp_time=dur_temp_sensor-bdur
-    stime=time.time()
-    if slp_time>0:
+    
+    slptime=time.time()-stime
+
+
+    if slptime<dur_temp_sensor:
         return btemp
-        
     
-    
+    stime=time.time()
     try:
         i2c.write_i2c_block_data(address,0x00,[])
     except:
