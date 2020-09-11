@@ -9,7 +9,7 @@ dur_temp_sensor=0.5
 
 stime=time.time()
 
-btemp=0
+btemp=15
 
 # センサsleep解除
 def get_tmp():
