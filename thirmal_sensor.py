@@ -1,6 +1,6 @@
 import time
 import busio
-import board,cv2
+import board
 
 import adafruit_amg88xx
 
