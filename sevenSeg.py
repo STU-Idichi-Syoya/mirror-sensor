@@ -119,7 +119,7 @@ class CHR_state:
     def __next__(self):
         if time.time()-self.stime<self.dur:
            return self.arr[self.idx]
-        
+        self.stime=time.time()
         self.idx=(self.idx+1)%len(self.arr)
         return self.arr[self.idx]
     
