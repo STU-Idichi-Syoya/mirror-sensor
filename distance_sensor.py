@@ -103,4 +103,4 @@ if __name__ == "__main__":
     init_sensors(GPIO_TRIG, GPIO_ECHO)
     while True:
         print("距離：{0} cm".format(get_distance(GPIO_TRIG, GPIO_ECHO)))
-        time.sleep(2)
+        time.sleep(0.5)

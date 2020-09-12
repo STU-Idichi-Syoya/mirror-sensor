@@ -17,9 +17,9 @@ SEG_OFF=GPIO.LOW
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 
-digit_pins=[22,10,9,11]
+digit_pins=[22,11,5,13]
 dot_pin=21
-segment_pins=[5,13,26,20,16,6,19]
+segment_pins=[10,6,26,20,21,9,19]
 seg_arr=list("abcdefg")
 
 
@@ -188,7 +188,7 @@ if __name__ == "__main__":
         #sevenQue.put(n)
         #time.sleep(0.2)
         for i in range(9999,-1,-1):
-            sevenQue.put("3.75C")
+            sevenQue.put(str(i))
             time.sleep(1)
         
     
