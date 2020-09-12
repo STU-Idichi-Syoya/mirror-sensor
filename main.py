@@ -1,6 +1,7 @@
 import distance_sensor
 
 import sensor_temp
+import sound
 import sevenSeg
 
 import thirmal_sensor
@@ -8,7 +9,7 @@ import time
 
 ## 温度センサ初期化
 Temp_sensor=sensor_temp.get_tmp
-
+Temp_sensor=None
 ## 距離センサ初期化
 distance_sensor.init_sensors(temp_sensor_func=Temp_sensor)
 
@@ -37,7 +38,7 @@ while True:
     e=0
     
     ## showAnime(wait)
-    while 35<=distance<=45 and (e-stime)<KEEP_TIME:
+    while 30<=distance<=55 and (e-stime)<KEEP_TIME:
         e=time.time()
         ## showAnime(mesurering)
         distance=distance_sensor.get_distance()
@@ -62,6 +63,7 @@ while True:
             if thirmal_temp==0:
                 if time.time()-zyuri_time > zyuri_KEEP_TIME:
                     total=-1
+                    sevenQue.put("E200")
                     break
                 continue
             
@@ -72,17 +74,17 @@ while True:
         if total==-1:
             continue
         avg=total/conf.avg_dur
-        sevenQue.put(str("%.2fC"%(avg/10)))
+        showstr=str("%.1fC"%(avg))
+        print("showing ",showstr)
+        sevenQue.put(showstr)
         if avg>37.5:
-            #alart()
-            pass
+            sound.alert()
         else:
-            #alart()
-            pass
+            sound.ok()
         ## todo 表示
         ## shownumber(avg)
 
-        time.sleep(2.0)
+        time.sleep(5)
 
     ## 不受理
     else:

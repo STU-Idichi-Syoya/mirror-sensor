@@ -18,7 +18,7 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 
 digit_pins=[22,11,5,13]
-dot_pin=21
+dot_pin=16
 segment_pins=[10,6,26,20,21,9,19]
 seg_arr=list("abcdefg")
 
@@ -36,11 +36,15 @@ def setup():
         GPIO.output(i,SEG_OFF)
     
     GPIO.output(dot_pin,SEG_OFF)
-    
+import multiprocessing as mlp
+
+#digit_que=queue.Queue()
+digit_que=mlp.Queue()
+
 def start_segment():
     
-    threading.Thread(target=digit_show).start()
-    
+#    threading.Thread(target=digit_show).start()
+    mlp.Process(target=digit_show).start()
 
 WAIT_TIME=0.0025
 def one_number_show(i:int,dot=False):
@@ -62,7 +66,8 @@ def one_number_show(i:int,dot=False):
         GPIO.output(dot_pin,SEG_OFF)
    
         
-Char_arr={"C":"afed"," ":""
+Char_arr={"C":"afed"," ":"",
+"E":"afged"
           
     }
 Number_arr=["abcdef","bc","abdeg","abcdg","bcfg","acdfg","cdefg","abc","abcdefg","abcdfg"]
@@ -105,9 +110,15 @@ class show_num:
         return False
     def __next__(self):
         r=self.str_i[self.str_idx]
-        self.str_idx+=1
-        self.str_idx=self.str_idx%len(self.str_i)
-        return r
+        isdot=False
+        if self.str_idx+1 < len(self.str_i):
+           self.str_idx+=1
+           if self.str_i[self.str_idx]==".":
+              isdot=True
+              self.str_idx=(self.str_idx+1)%len(self.str_i)
+        else:
+            self.str_idx=0
+        return r,isdot
 
 
 class CHR_state:
@@ -123,7 +134,6 @@ class CHR_state:
         self.idx=(self.idx+1)%len(self.arr)
         return self.arr[self.idx]
     
-digit_que=queue.Queue()
 def digit_show(FOURdigit_str:str="1111"):
     digit_idx=0
     len_show=len(FOURdigit_str)
@@ -148,10 +158,10 @@ def digit_show(FOURdigit_str:str="1111"):
                 digit_idx=0
                 FOURdigit_str=show_num(obj)
         
-        dot=FOURdigit_str.isNext_dot()
+#        dot=FOURdigit_str.isNext_dot()
         
         
-        show_char=next(FOURdigit_str)
+        show_char,dot=next(FOURdigit_str)
         
      #   print(digit_idx,"char-->",show_char)
         GPIO.output(digit_pins[digit_idx],DIGIT_ON)
@@ -188,7 +198,7 @@ if __name__ == "__main__":
         #sevenQue.put(n)
         #time.sleep(0.2)
         for i in range(9999,-1,-1):
-            sevenQue.put(str(i))
+            sevenQue.put("E301")
             time.sleep(1)
         
     

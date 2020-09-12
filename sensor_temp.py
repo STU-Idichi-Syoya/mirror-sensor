@@ -24,7 +24,7 @@ def get_tmp():
     
     stime=time.time()
     try:
-        i2c.write_i2c_block_data(address,0x00,[])
+      i2c.write_i2c_block_data(address,0x00,[])
     
       # 読み取り命令
       time.sleep(0.003)

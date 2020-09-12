@@ -12,7 +12,7 @@
 segment_io=[[1223],[],[],[]]
 
 
-keep_time=2
+keep_time=1
 
 zyuri_KEEP_TIME=5
 

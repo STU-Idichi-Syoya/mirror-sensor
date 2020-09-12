@@ -67,6 +67,7 @@ def init_sensors(trig=GPIO_TRIG, echo=GPIO_ECHO, mode=GPIO.BCM,temp_sensor_func=
     else:
         temp_instance=temp_sensor_func
 
+bdis=0
 def get_distance(trig=GPIO_TRIG, echo=GPIO_ECHO):
     """
     距離を取得します。取得に失敗した場合は0を返します。
@@ -93,7 +94,13 @@ def get_distance(trig=GPIO_TRIG, echo=GPIO_ECHO):
 
     # ( パルス時間 x 331.50 + 0.61 * 温度 ) x (単位をcmに変換) x 往復
     # return dur * (331.50 + 0.61 * temp) * 100 / 2
-    return dur * (331.50 + 0.61 * temp) * 50
+    global bdis
+    dis = dur * (331.50 + 0.61 * temp) * 50
+    if dis>400:
+     print("err! dis>400")
+     return bdis
+    bdis= dis
+    return dis
 
 if __name__ == "__main__":
 
